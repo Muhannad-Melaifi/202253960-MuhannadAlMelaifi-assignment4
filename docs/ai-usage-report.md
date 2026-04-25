@@ -1,106 +1,115 @@
-# AI Usage Report (Assignment 3)
+# AI Usage Report — Assignment 4
 
-## 1) AI Tools Used
+---
 
-- ChatGPT (design discussion, JavaScript logic suggestions, documentation refinement)
-- GitHub Copilot Chat (code refactoring support, debugging checks, and rubric-aligned documentation edits)
+## 1. Tools Used
 
-## 2) Why AI Was Used
+| Tool | Primary Use Cases |
+|---|---|
+| Claude (Anthropic) | Feature planning, code generation, documentation drafting, code review |
+| GitHub Copilot | In-editor code completion, boilerplate reduction |
 
-AI was used to speed up ideation, compare implementation options, and improve clarity in both code behavior and written documentation. AI support was focused on:
+---
 
-- Dynamic content behavior (project search/filter)
-- Data handling flow (API fetch states: loading/success/error)
-- User feedback patterns (empty states, toast messages, validation hints)
-- Report quality improvements (clearer structure and grading-aligned explanations)
+## 2. How Each Tool Was Used
 
-## 3) Where AI Contributed in the Project
+### Claude
 
-### A) Feature Planning
+Claude was used as the main development assistant throughout Assignment 4. Specific use cases:
 
-AI was used to evaluate which interactions best match assignment requirements. The selected scope prioritized:
+**Feature design:**
+Prompted Claude to suggest what features would best address the Assignment 4 rubric (polish, innovation, documentation quality). Claude proposed the scroll progress bar, Intersection Observer-based scroll reveal, animated stat counters, and the GitHub API stats widget. I evaluated each suggestion against the rubric criteria and chose the ones that added real value to the user experience.
 
-- One dynamic content feature
-- One public API data feature
-- Consistent user feedback for normal and failure paths
+**Code generation:**
+Claude generated initial implementations for:
+- The `initScrollProgress` function (scroll position percentage calculation)
+- The `initScrollReveal` function (adding/removing `.reveal`/`.visible` classes via Intersection Observer)
+- The `initStatCounters` function (ease-out quad animation with `requestAnimationFrame`)
+- The `initGitHubStats` async fetch with error handling
+- The `initCharCounter` function for the textarea
 
-### B) JavaScript Logic Refinement
+In all cases I reviewed the code, tested it in the browser, and made targeted edits before including it.
 
-AI provided draft logic and pseudocode for:
+**Documentation:**
+Claude drafted initial versions of the README, this AI usage report, and the technical documentation. I restructured sections, corrected factual details (file paths, function names), and rewrote explanations to match my own understanding and writing style.
 
-- Live filtering with input events
-- Empty-state visibility logic when no project cards match
-- Async API handling with try/catch
-- Refresh action behavior and fallback messaging
-- Combined filtering and sorting logic for projects
-- Visitor state storage and session timer structure
+**Code review:**
+After writing CSS for the new components (badges, tech chips, social links), I asked Claude to review for accessibility issues and responsive behavior. This surfaced one issue: the contact grid needed an explicit `align-items: start` to prevent the social card from stretching to match the form's height.
 
-### C) UX Wording and Messaging
+### GitHub Copilot
 
-AI helped improve microcopy for:
+Copilot was used for in-editor autocomplete while writing repetitive HTML structures (e.g., the three GitHub stat `<div>` elements, social link `<li>` items). It also autocompleted CSS property values for new rules. I accepted suggestions selectively and overrode them when they did not match the existing code style.
 
-- Error states
-- Empty states
-- Success confirmations
-- Loading status text
+---
 
-### D) Documentation Quality
+## 3. Example Prompt Patterns
 
-AI was used to reorganize project documentation so each section maps to rubric criteria (functionality, UX clarity, and effective AI use evidence).
+Below are representative prompts used during development (paraphrased):
 
-## 4) Example Prompt Patterns
+- "Given this assignment rubric, what new features would score highest on Innovation and Performance? Keep answers brief."
+- "Write a scroll progress bar implementation that uses `{ passive: true }` event listeners and updates a CSS width property."
+- "Write an Intersection Observer that adds a `.visible` class to `.card` elements when they enter the viewport. Cards should be unobserved after first trigger."
+- "Write an animated counter that goes from 0 to a target number in ~1 second with ease-out, using requestAnimationFrame."
+- "Review this CSS for the `.contact-grid`. What happens on mobile if I change it to 1.6fr 1fr?"
+- "Draft a comprehensive README for a portfolio site. Sections needed: overview, features, setup instructions, file structure, browser compatibility, AI documentation."
 
-Below are representative prompt types used during development (paraphrased):
+---
 
-- "Suggest a clean DOM-based live filter for project cards with an empty-state message."
-- "Improve this fetch flow to show loading, success, and friendly error states."
-- "Review this form validation logic and suggest clearer user feedback copy."
-- "Rewrite this README section with step-by-step user guidance for navigation and interaction."
+## 4. How AI Output Was Verified and Modified
 
-## 5) Human Verification and Changes Made
+Every piece of AI-generated code was:
 
-All AI-generated suggestions were manually reviewed and edited before final use.
+1. **Read and understood** before being used. I did not include code I could not explain.
+2. **Tested in the browser** across dark mode, light mode, mobile size, and desktop size.
+3. **Modified where needed:**
+   - The scroll-reveal implementation originally applied the `.reveal` class in HTML. I changed it to apply via JavaScript so that users without JavaScript see cards normally (progressive enhancement).
+   - The stat counter animation used a linear formula initially. I replaced it with ease-out quad for a more natural feel.
+   - The GitHub stats widget originally showed a toast on failure; I removed this since the inline status message already communicates the error without being intrusive.
+   - Documentation language was rewritten in my own voice throughout.
 
-- I adjusted variable names and logic structure for readability.
-- I removed unnecessary complexity from draft snippets.
-- I tested each feature directly in the browser.
-- I verified behavior for both success and failure scenarios.
-- I ensured the final code aligns with assignment constraints.
-- I rejected suggestions that introduced unnecessary complexity.
-- I rewrote parts of generated text to match my own writing style.
+---
 
-## 6) Benefits Observed
+## 5. Benefits Observed
 
-- Faster iteration when comparing implementation choices
-- Better coverage of edge cases (especially API failures)
-- Improved wording consistency for user-facing messages
-- Higher documentation clarity and stronger traceability of decisions
+- Faster implementation of complex patterns (Intersection Observer, requestAnimationFrame animation)
+- Better coverage of edge cases (API failures, rate limits, no-JS fallback for scroll reveal)
+- Higher documentation quality — Claude's structured drafts gave me a clear outline to refine
+- Identified an accessibility issue (missing `align-items` in grid) during code review
 
-## 7) Challenges and Mitigation
+---
 
-- Challenge: Some AI suggestions were too generic.
-  - Mitigation: Narrow prompts using exact IDs, required behaviors, and expected UI outputs.
-- Challenge: API reliability/rate limits can affect demonstration.
-  - Mitigation: Added caching/fallback behavior and explicit user-facing error text.
+## 6. Challenges and Limitations
 
-## 8) Responsible and Ethical AI Use
+| Challenge | Mitigation |
+|---|---|
+| AI suggestions were sometimes overengineered (e.g., proposed a full scroll-spy sidebar with dots) | Used simpler active-link approach that is sufficient for this scale |
+| Generated CSS did not always match the existing naming conventions | Manually renamed classes to follow the established pattern |
+| AI-drafted documentation occasionally made false claims about file paths | Cross-checked every path against the actual directory before finalizing |
+| GitHub API rate limit (60 req/hr unauthenticated) affects both widgets | Added independent error handling for each widget; they fail gracefully |
 
-- AI was used as an assistant, not as an automatic replacement for understanding.
-- I validated all output and kept only code I can explain.
-- Final decisions, debugging, and testing remained my responsibility.
-- Documentation explicitly discloses where AI contributed.
+---
 
-## 9) Learning Outcomes
+## 7. Responsible Use and Academic Integrity
 
-Using AI in a controlled way improved my practical skills in:
+- All AI-generated code was reviewed, tested, and understood before inclusion.
+- No AI output was submitted verbatim without review and modification.
+- This report transparently discloses every area where AI contributed.
+- Final decisions, browser testing, debugging, and integration were done by me.
+- AI was used as an accelerator, not as a replacement for understanding.
 
-- DOM querying and event-driven updates
-- Async JavaScript with fetch and error handling
-- Designing user feedback for edge cases
-- Structuring technical documentation for rubric alignment
+---
 
-## 10) Conclusion
+## 8. Learning Outcomes
 
-AI support was used intentionally for planning, refinement, and documentation. The final submission reflects human-reviewed implementation choices, tested behaviors, and transparent reporting of AI involvement.
+Using AI tools in a disciplined way during this assignment improved my understanding of:
 
+- **Intersection Observer API**: Understanding threshold, rootMargin, and when to unobserve was clarified by comparing AI-suggested code with MDN documentation.
+- **requestAnimationFrame animation**: The ease-out formula and how animation progress is calculated gave me insight into how CSS transitions work internally.
+- **API error handling patterns**: Seeing different fallback strategies helped me choose the right approach for each widget (cached fallback for quotes, inline status for GitHub stats).
+- **Documentation writing**: AI drafts showed me how to structure technical writing, which I then refined to be more precise and match the project's actual behavior.
 
+---
+
+## 9. Conclusion
+
+AI tools were used throughout Assignment 4 as a development and documentation accelerator. Every contribution was reviewed, tested, and adapted. The final submission reflects my own decisions, my own testing, and my own understanding of every feature included.

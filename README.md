@@ -1,89 +1,167 @@
-# Muhannad Portfolio (Assignment 3)
+# Muhannad — Personal Portfolio (Assignment 4)
 
-A responsive personal portfolio website built with HTML, CSS, and JavaScript.
-It includes About, Projects, and Contact sections with interactive behavior and clear user feedback.
+A responsive, production-quality personal portfolio website built with HTML, CSS, and JavaScript.
+This is the final assignment deliverable — a polished, fully featured web application ready to share publicly.
 
-## Features
+---
 
-- Responsive layout for mobile, tablet, and desktop
-- Sections: About, Projects, Contact
-- JavaScript interactivity:
-  - Theme toggle (saved in localStorage)
-  - Greeting message based on time of day
-  - Smooth scrolling navigation
-  - Contact form validation with multi-step checks and toast feedback (front-end only)
-  - Live project search/filter with empty-state message
-  - Project level filter (Beginner/Advanced)
-  - Project sorting (Newest/Oldest/Name A-Z)
-  - Dynamic guidance text based on selected filters
-  - Public API widget using fetch with loading, success, and error states
-  - Visitor state panel:
-    - Save and clear visitor name using localStorage
-    - Session timer showing time spent on the site
-    - Browser visit counter
+## Project Overview
 
-## Assignment 3 Requirement Coverage
+This portfolio showcases my background, technical skills, and software projects as a Software Engineering student at KFUPM. It combines clean design, interactive JavaScript features, two live API integrations, and accessibility best practices into a single deployable application.
 
-- API Integration: Developer Quote widget connected to GitHub Zen API with fallback and caching.
-- Complex Logic: Combined search + level filter + sorting with conditional feedback text.
-- State Management: Theme preference, visitor name, and visit count stored in localStorage.
-- Performance: Lazy-loaded project images, lightweight animations, and minimal DOM updates.
-- Code Quality: Organized HTML/CSS/JS structure with readable functions and comments.
-
-## Compatibility
-
-- Designed for modern evergreen browsers such as Chrome, Edge, Firefox, and Safari.
-- Uses responsive layouts for mobile, tablet, and desktop screens.
-- Navigation, filtering, and form validation work without a backend.
-
-## Setup Instructions
-
-1. Clone or download this repository.
-2. Open the project folder in VS Code.
-3. Run `index.html` using Live Server.
-
-## How to Use the Website (Step-by-Step)
-
-1. Start at the top navigation bar and click About to read profile information.
-2. Click Projects to jump to the projects section.
-3. In Projects:
-
-- Type a keyword in the search field (example: `js`, `api`, `ui`).
-- Pick a level filter (All, Beginner, Advanced).
-- Pick a sorting mode (Newest, Oldest, Name A-Z).
-- Matching project cards remain visible while non-matching cards are hidden.
-- If no match is found, an empty-state message appears to guide the user.
-- Use the clear search control to reset and view all projects again.
-
-4. In the API widget:
-
-- Wait for loading text while data is fetched.
-- Review the loaded content.
-- Click the refresh button to request new data.
-- If the API is unavailable, a friendly fallback message is shown.
-
-5. Click Contact to open the form.
-6. Enter your name, email, and message, then submit.
-7. If fields are invalid, inline validation explains what to fix.
-8. After valid input, a toast confirms successful submission flow (UI-only, no backend send).
-9. Use the theme toggle at any point to switch appearance; your preference is remembered.
-10. In Visitor Preferences:
-
-- Enter your name and click Save name for personalized state.
-- Track live session time while browsing.
-- Review visit count for this browser.
-
-## Navigation Guidance Summary
-
-- Main path for first-time users: About -> Projects -> API widget -> Contact.
-- Main path for recruiters/instructors: Projects first, then Contact.
-- All major interactions provide immediate on-screen feedback.
-
-## AI Documentation
-
-- Detailed AI usage report: docs/ai-usage-report.md
-- Technical documentation: docs/technical-documentation.md
+---
 
 ## Live Deployment
 
-Live Site: <https://muhannad-melaifi.github.io/202253960-MuhannadAlMelaifi-assignment3/>
+Live Site: <https://muhannad-melaifi.github.io/202253960-MuhannadAlMelaifi-assignment4/>
+
+---
+
+## Features
+
+### Layout and Design
+- Responsive layout adapting to mobile, tablet, and desktop
+- Dark and light themes with preference saved in `localStorage`
+- Smooth scroll reveal animations on all cards (Intersection Observer API)
+- Animated scroll progress bar at the top of the page
+- Floating back-to-top button that appears after scrolling
+
+### Navigation
+- Sticky glassmorphism header
+- Mobile hamburger menu with accessible toggle
+- Active section highlighting: the nav link for the visible section is highlighted automatically
+
+### Hero Section
+- Time-based greeting (morning / afternoon / evening)
+- Animated stat counters (Projects, Technologies, Years Coding) that count up on load
+
+### About Section
+- Personal bio card
+- Technical skills chips (Java, Python, HTML/CSS/JS, Flutter, MySQL, Git)
+- Visitor Preferences panel: save your name, track session time, count browser visits
+- Developer Quote widget: fetches from the GitHub Zen API with caching and offline fallback
+- **GitHub Activity widget**: fetches live public repo count, followers, and following from the GitHub API
+
+### Projects Section
+- Three project cards with difficulty badges, tech stack chips, and GitHub links
+- Real-time search filtering by text and tags
+- Level filter (All / Beginner / Advanced)
+- Sort options (Newest / Oldest / Name A–Z)
+- Dynamic hint text and empty-state message
+- Lazy-loaded images with emoji fallback
+
+### Contact Section
+- Contact form with multi-field validation (name, email, message)
+- Character counter on the message field (max 500)
+- Toast notifications for user feedback
+- Social links card (GitHub, LinkedIn) alongside the form
+
+### Footer
+- Dynamic copyright year
+- GitHub link and back-to-top link
+
+---
+
+## Setup Instructions
+
+### Run Locally
+
+1. Clone or download this repository:
+   ```
+   git clone https://github.com/Muhannad-Melaifi/202253960-MuhannadAlMelaifi-assignment4.git
+   ```
+2. Open the project folder in VS Code.
+3. Install the **Live Server** extension if not already installed.
+4. Right-click `index.html` and select **Open with Live Server**.
+5. The site opens at `http://127.0.0.1:5500` (or similar).
+
+No build tools, package managers, or backend server are required. Everything runs in the browser.
+
+### Deploy to GitHub Pages
+
+1. Push the repository to GitHub.
+2. Go to **Settings → Pages**.
+3. Set the source to the `main` branch, root folder.
+4. GitHub generates a live URL within a few minutes.
+
+---
+
+## How to Use the Website
+
+### First-time visitors
+1. Start at the top navigation bar and click **About** to read profile information.
+2. Scroll down or click **Projects** to see the project showcase.
+3. Use the search bar and filters to explore projects by keyword or skill level.
+4. Click **Contact** to reach the contact form or social links.
+
+### Using the Developer Quote widget
+- The widget loads a quote from the GitHub Zen API on page open.
+- Click **New quote** to fetch a fresh quote from the network.
+- If the API is unavailable, a cached or fallback quote is shown automatically.
+
+### Using the GitHub Activity widget
+- The widget fetches live stats from the GitHub API on page load.
+- It shows public repository count, followers, and following for the GitHub profile.
+- Click **View Profile** to open the full GitHub profile in a new tab.
+
+### Using the Project Search
+- Type any keyword (e.g., `java`, `api`, `react`) to filter matching projects.
+- Select a difficulty level or sort order using the dropdowns.
+- Click **Clear** to reset all filters at once.
+
+### Using Visitor Preferences
+- Enter your name and click **Save name** for a personalized welcome message.
+- Session time starts counting from your first page load.
+- Visit count increments each time you open the page in this browser.
+
+### Theme Toggle
+- Click **Dark / Light** in the header to switch themes.
+- Your choice is saved and remembered on your next visit.
+
+---
+
+## File Structure
+
+```
+202253960-MuhannadAlMelaifi-assignment4/
+├── README.md
+├── index.html
+├── css/
+│   └── styles.css
+├── js/
+│   └── script.js
+├── assets/
+│   └── images/
+│       ├── profile.jpg
+│       ├── project-horse-racing.jpg
+│       ├── project-reservation.jpg
+│       └── project-labtrack.png
+├── docs/
+│   ├── ai-usage-report.md
+│   └── technical-documentation.md
+├── presentation/
+│   ├── slides.pdf
+│   └── demo-video.mp4
+└── .gitignore
+```
+
+---
+
+## Browser Compatibility
+
+Tested on modern evergreen browsers:
+- Chrome 120+
+- Firefox 120+
+- Edge 120+
+- Safari 17+
+
+Uses standard web APIs: CSS Grid, Flexbox, CSS custom properties, Intersection Observer, Fetch API, localStorage. No polyfills needed for modern browsers.
+
+---
+
+## AI Documentation
+
+- Detailed AI usage report: [docs/ai-usage-report.md](docs/ai-usage-report.md)
+- Technical documentation: [docs/technical-documentation.md](docs/technical-documentation.md)
+
+AI tools used: Claude (Anthropic), GitHub Copilot.

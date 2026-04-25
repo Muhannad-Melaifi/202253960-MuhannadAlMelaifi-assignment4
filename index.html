@@ -5,14 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Muhannad's personal portfolio - Software Engineering student at KFUPM"
+      content="Muhannad's personal portfolio — Software Engineering student at KFUPM building practical systems with clean UI and reliable backends."
     />
+    <meta property="og:title" content="Muhannad | Software Engineering Portfolio" />
+    <meta property="og:description" content="Software Engineering student at KFUPM — building practical systems with clean UI." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#070b18" />
     <title>Muhannad | Portfolio</title>
 
     <link rel="stylesheet" href="css/styles.css" />
     <script defer src="js/script.js"></script>
   </head>
   <body>
+    <!-- Scroll progress indicator -->
+    <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
+
     <!-- Skip link for accessibility -->
     <a class="skip-link" href="#main">Skip to content</a>
 
@@ -58,7 +66,7 @@
         <div class="container hero-grid">
           <div class="hero-text">
             <p class="pill" id="greetingPill">Hello!</p>
-            <h1>Hi, I’m <span class="accent">Muhannad</span></h1>
+            <h1>Hi, I'm <span class="accent">Muhannad</span></h1>
             <p class="subtitle">
               Software Engineering student building practical systems with clean
               UI and reliable web experience.
@@ -77,8 +85,7 @@
                 alt="Profile photo"
                 onerror="
                   this.style.display = 'none';
-                  document.getElementById('profileFallback').style.display =
-                    'grid';
+                  document.getElementById('profileFallback').style.display = 'grid';
                 "
               />
               <div
@@ -87,6 +94,22 @@
                 style="display: none"
               >
                 <p>Profile image not available</p>
+              </div>
+            </div>
+
+            <!-- Animated stat counters -->
+            <div class="hero-stats" aria-label="Quick stats">
+              <div class="hero-stat">
+                <span class="hero-stat-num" data-target="3">0</span>
+                <small>Projects</small>
+              </div>
+              <div class="hero-stat">
+                <span class="hero-stat-num" data-target="6">0</span>
+                <small>Technologies</small>
+              </div>
+              <div class="hero-stat">
+                <span class="hero-stat-num" data-target="2">0</span>
+                <small>Years Coding</small>
               </div>
             </div>
           </div>
@@ -104,7 +127,7 @@
             <div class="card">
               <h3>Who I am</h3>
               <p>
-                I’m a Software Engineering student at KFUPM. I enjoy building
+                I'm a Software Engineering student at KFUPM. I enjoy building
                 systems that combine clean interfaces with strong frontend and
                 backend logic and reliable databases.
               </p>
@@ -169,6 +192,37 @@
               <p class="api-status" id="quoteStatus">Loading…</p>
               <blockquote class="api-quote" id="quoteText" hidden></blockquote>
               <p class="api-author" id="quoteAuthor" hidden></p>
+            </div>
+
+            <!-- GitHub Activity widget -->
+            <div class="card github-card wide" aria-live="polite">
+              <div class="api-head">
+                <h3>GitHub Activity</h3>
+                <a
+                  class="btn"
+                  href="https://github.com/Muhannad-Melaifi"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View GitHub profile (opens in new tab)"
+                >
+                  View Profile ↗
+                </a>
+              </div>
+              <p class="api-status" id="githubStatus">Loading GitHub data…</p>
+              <div id="githubData" class="github-data" hidden>
+                <div class="github-stat">
+                  <span id="githubRepos">—</span>
+                  <small>Public Repos</small>
+                </div>
+                <div class="github-stat">
+                  <span id="githubFollowers">—</span>
+                  <small>Followers</small>
+                </div>
+                <div class="github-stat">
+                  <span id="githubFollowing">—</span>
+                  <small>Following</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -239,7 +293,10 @@
               </div>
 
               <div class="project-body">
-                <h3>Horse Racing Database System</h3>
+                <div class="project-header-row">
+                  <h3>Horse Racing Database System</h3>
+                  <span class="badge badge-advanced">Advanced</span>
+                </div>
                 <p>
                   Mobile app for managing horse races and results, backed by a
                   PHP/MySQL API and designed with separate admin and guest
@@ -253,6 +310,20 @@
                   <li>Database automation with stored procedures & triggers</li>
                   <li>Archiving logic for deleted horse records</li>
                 </ul>
+                <div class="tech-chips">
+                  <span class="tech-chip">Flutter</span>
+                  <span class="tech-chip">PHP</span>
+                  <span class="tech-chip">MySQL</span>
+                  <span class="tech-chip">REST API</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    class="btn project-link-btn"
+                    href="https://github.com/Muhannad-Melaifi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >GitHub ↗</a>
+                </div>
               </div>
             </article>
 
@@ -279,13 +350,15 @@
               </div>
 
               <div class="project-body">
-                <h3>Classroom & Facilities Reservation System</h3>
+                <div class="project-header-row">
+                  <h3>Classroom & Facilities Reservation System</h3>
+                  <span class="badge badge-beginner">Beginner</span>
+                </div>
                 <p>
                   Desktop reservation app that schedules classrooms/facilities
                   while enforcing rules that prevent conflicts and unauthorized
                   bookings.
                 </p>
-
                 <ul class="bullets">
                   <li>
                     Built the JavaFX interface and booking flow with time-slot
@@ -294,8 +367,22 @@
                   <li>Role-based access rules</li>
                   <li>Facility constraints and booking policies</li>
                 </ul>
+                <div class="tech-chips">
+                  <span class="tech-chip">Java</span>
+                  <span class="tech-chip">JavaFX</span>
+                  <span class="tech-chip">Desktop App</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    class="btn project-link-btn"
+                    href="https://github.com/Muhannad-Melaifi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >GitHub ↗</a>
+                </div>
               </div>
             </article>
+
             <article
               class="project card"
               data-tags="react vite javascript node express mongodb programming labs code editor automated testing peer review grading analytics admin student instructor kfupm"
@@ -319,29 +406,43 @@
               </div>
 
               <div class="project-body">
-                <h3>LabTrack</h3>
+                <div class="project-header-row">
+                  <h3>LabTrack</h3>
+                  <span class="badge badge-advanced">Advanced</span>
+                </div>
                 <p>
                   Full-stack academic programming lab platform built for KFUPM
                   to help students, instructors, and administrators manage the
                   complete lab workflow in one place.
                 </p>
-
                 <ul class="bullets">
                   <li>
                     Centralized lab management with course dashboards,
-                    browser-based coding and automated
-                    test validation.
+                    browser-based coding and automated test validation.
                   </li>
                   <li>
                     Role-based workflows for students, instructors, and
                     administrators, including grading, analytics, peer review.
-                
                   </li>
                   <li>
                     Designed with React-based frontend flows and a backend stack
                     using Node.js, MongoDB, and APIs.
                   </li>
                 </ul>
+                <div class="tech-chips">
+                  <span class="tech-chip">React</span>
+                  <span class="tech-chip">Node.js</span>
+                  <span class="tech-chip">MongoDB</span>
+                  <span class="tech-chip">Vite</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    class="btn project-link-btn"
+                    href="https://github.com/Muhannad-Melaifi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >GitHub ↗</a>
+                </div>
               </div>
             </article>
           </div>
@@ -390,13 +491,52 @@
                   name="message"
                   rows="5"
                   placeholder="Write your message..."
+                  maxlength="500"
                   required
                 ></textarea>
                 <small class="error" id="messageError"></small>
+                <small class="char-count" id="charCount" aria-live="polite">0 / 500</small>
               </div>
 
-              <button class="btn primary" type="submit">Send</button>
+              <button class="btn primary" type="submit">Send Message</button>
             </form>
+
+            <!-- Contact info and social links -->
+            <div class="card contact-info-card">
+              <h3>Connect With Me</h3>
+              <p class="subtitle-small">
+                Open to collaborations, opportunities, and conversations.
+              </p>
+              <ul class="social-links" aria-label="Social links">
+                <li>
+                  <a
+                    class="social-link-item"
+                    href="https://github.com/Muhannad-Melaifi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub profile (opens in new tab)"
+                  >
+                    <span>GitHub</span>
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="social-link-item"
+                    href="https://www.linkedin.com/in/muhannad-almelaifi-687423358/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn profile (opens in new tab)"
+                  >
+                    <span>LinkedIn</span>
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              </ul>
+              <p class="contact-note">
+                The form is front-end only. Use the links above for direct contact.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -405,11 +545,27 @@
     <footer class="site-footer">
       <div class="container footer-row">
         <p>© <span id="year"></span> Muhannad. All rights reserved.</p>
-        <a class="to-top" href="#home">Back to top</a>
+        <div class="footer-links">
+          <a
+            class="footer-link"
+            href="https://github.com/Muhannad-Melaifi"
+            target="_blank"
+            rel="noopener noreferrer"
+          >GitHub</a>
+          <a class="to-top footer-link" href="#home">Back to top ↑</a>
+        </div>
       </div>
     </footer>
 
-    <!-- Toast -->
+    <!-- Floating back-to-top button (visible after scrolling down) -->
+    <button
+      id="floatTop"
+      class="float-top"
+      aria-label="Back to top"
+      hidden
+    >↑</button>
+
+    <!-- Toast notification -->
     <div
       class="toast"
       id="toast"

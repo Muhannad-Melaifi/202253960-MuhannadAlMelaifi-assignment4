@@ -407,3 +407,161 @@ $("year").textContent = String(new Date().getFullYear());
   refreshBtn.addEventListener("click", () => loadQuote(true));
   await loadQuote(false);
 })();
+
+// ===========================
+// Assignment 4 — New Features
+// ===========================
+
+// Scroll progress bar
+(function initScrollProgress() {
+  const bar = $("scrollProgress");
+  if (!bar) return;
+  function update() {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = total > 0 ? `${(scrolled / total) * 100}%` : "0%";
+  }
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+})();
+
+// Floating back-to-top button
+(function initFloatTop() {
+  const btn = $("floatTop");
+  if (!btn) return;
+  window.addEventListener(
+    "scroll",
+    () => {
+      btn.hidden = window.scrollY < 400;
+    },
+    { passive: true }
+  );
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+})();
+
+// Active nav link highlight based on scroll position
+(function initActiveNav() {
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll(".nav-link");
+  if (!sections.length || !navLinks.length) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navLinks.forEach((link) => link.classList.remove("active"));
+          const active = document.querySelector(
+            `.nav-link[href="#${entry.target.id}"]`
+          );
+          if (active) active.classList.add("active");
+        }
+      });
+    },
+    { rootMargin: "-30% 0px -60% 0px" }
+  );
+
+  sections.forEach((s) => observer.observe(s));
+})();
+
+// Scroll-reveal animation for cards
+(function initScrollReveal() {
+  const cards = document.querySelectorAll(".card");
+  if (!cards.length || !("IntersectionObserver" in window)) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08 }
+  );
+
+  cards.forEach((card) => {
+    card.classList.add("reveal");
+    observer.observe(card);
+  });
+})();
+
+// Animated stat counters in the hero card
+(function initStatCounters() {
+  const nums = document.querySelectorAll(".hero-stat-num");
+  if (!nums.length || !("IntersectionObserver" in window)) return;
+
+  function animateNum(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 1000;
+    const start = Date.now();
+    function step() {
+      const progress = Math.min((Date.now() - start) / duration, 1);
+      // ease-out quad
+      const eased = 1 - (1 - progress) * (1 - progress);
+      el.textContent = String(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const container = document.querySelector(".hero-stats");
+  if (!container) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          nums.forEach(animateNum);
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  observer.observe(container);
+})();
+
+// GitHub profile stats (second API integration)
+(async function initGitHubStats() {
+  const statusEl = $("githubStatus");
+  const dataEl = $("githubData");
+  const reposEl = $("githubRepos");
+  const followersEl = $("githubFollowers");
+  const followingEl = $("githubFollowing");
+
+  if (!statusEl || !dataEl) return;
+
+  try {
+    const res = await fetch("https://api.github.com/users/Muhannad-Melaifi");
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    reposEl.textContent = String(data.public_repos);
+    followersEl.textContent = String(data.followers);
+    followingEl.textContent = String(data.following);
+
+    statusEl.textContent = "";
+    dataEl.hidden = false;
+  } catch (err) {
+    statusEl.textContent = "GitHub data unavailable right now.";
+    console.error("GitHub API:", err);
+  }
+})();
+
+// Character counter for contact textarea
+(function initCharCounter() {
+  const textarea = $("message");
+  const counter = $("charCount");
+  if (!textarea || !counter) return;
+
+  textarea.addEventListener("input", () => {
+    const len = textarea.value.length;
+    const max = parseInt(textarea.getAttribute("maxlength") || "500", 10);
+    counter.textContent = `${len} / ${max}`;
+    counter.classList.toggle("warn", len > max * 0.9);
+  });
+})();
