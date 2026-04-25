@@ -353,16 +353,29 @@ $("year").textContent = String(new Date().getFullYear());
   }
 
   async function fetchGitHubZen() {
-    const res = await fetch("https://api.github.com/zen", {
-      cache: "no-store",
+    return new Promise((resolve, reject) => {
+      const callbackName = `githubZenCallback_${Date.now()}`;
+      const timeout = setTimeout(() => {
+        delete window[callbackName];
+        reject(new Error("Request timeout"));
+      }, 5000);
+
+      window[callbackName] = (text) => {
+        clearTimeout(timeout);
+        delete window[callbackName];
+        if (script.parentNode) script.parentNode.removeChild(script);
+        resolve({ text: text.trim(), author: "GitHub Zen" });
+      };
+
+      const script = document.createElement("script");
+      script.src = `https://api.github.com/zen?callback=${callbackName}`;
+      script.onerror = () => {
+        clearTimeout(timeout);
+        delete window[callbackName];
+        reject(new Error("CORS failure or network error"));
+      };
+      document.head.appendChild(script);
     });
-    if (!res.ok) {
-      // 403 is common when rate-limited
-      throw new Error(`Request failed (${res.status})`);
-    }
-    const text = (await res.text()).trim();
-    if (!text) throw new Error("Empty response");
-    return { text, author: "GitHub Zen" };
   }
 
   async function loadQuote(forceNetwork = false) {
@@ -434,7 +447,7 @@ $("year").textContent = String(new Date().getFullYear());
     () => {
       btn.hidden = window.scrollY < 400;
     },
-    { passive: true }
+    { passive: true },
   );
   btn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -453,13 +466,13 @@ $("year").textContent = String(new Date().getFullYear());
         if (entry.isIntersecting) {
           navLinks.forEach((link) => link.classList.remove("active"));
           const active = document.querySelector(
-            `.nav-link[href="#${entry.target.id}"]`
+            `.nav-link[href="#${entry.target.id}"]`,
           );
           if (active) active.classList.add("active");
         }
       });
     },
-    { rootMargin: "-30% 0px -60% 0px" }
+    { rootMargin: "-30% 0px -60% 0px" },
   );
 
   sections.forEach((s) => observer.observe(s));
@@ -479,7 +492,7 @@ $("year").textContent = String(new Date().getFullYear());
         }
       });
     },
-    { threshold: 0.08 }
+    { threshold: 0.08 },
   );
 
   cards.forEach((card) => {
@@ -519,7 +532,7 @@ $("year").textContent = String(new Date().getFullYear());
         }
       });
     },
-    { threshold: 0.5 }
+    { threshold: 0.5 },
   );
 
   observer.observe(container);
