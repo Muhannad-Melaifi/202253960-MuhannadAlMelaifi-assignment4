@@ -549,7 +549,13 @@ $("year").textContent = String(new Date().getFullYear());
   if (!statusEl || !dataEl) return;
 
   try {
-    const res = await fetch("https://api.github.com/users/Muhannad-Melaifi");
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    const apiUrl = "https://api.github.com/users/Muhannad-Melaifi";
+    const res = await fetch(proxyUrl + apiUrl, {
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
