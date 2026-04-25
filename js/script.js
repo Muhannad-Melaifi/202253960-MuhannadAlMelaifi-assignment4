@@ -352,30 +352,20 @@ $("year").textContent = String(new Date().getFullYear());
     return { text, author };
   }
 
-  async function fetchGitHubZen() {
-    return new Promise((resolve, reject) => {
-      const callbackName = `githubZenCallback_${Date.now()}`;
-      const timeout = setTimeout(() => {
-        delete window[callbackName];
-        reject(new Error("Request timeout"));
-      }, 5000);
-
-      window[callbackName] = (text) => {
-        clearTimeout(timeout);
-        delete window[callbackName];
-        if (script.parentNode) script.parentNode.removeChild(script);
-        resolve({ text: text.trim(), author: "GitHub Zen" });
-      };
-
-      const script = document.createElement("script");
-      script.src = `https://api.github.com/zen?callback=${callbackName}`;
-      script.onerror = () => {
-        clearTimeout(timeout);
-        delete window[callbackName];
-        reject(new Error("CORS failure or network error"));
-      };
-      document.head.appendChild(script);
+  async function fetchRandomQuote() {
+    const res = await fetch("https://api.quotable.io/random", {
+      cache: "no-store",
     });
+    if (!res.ok) {
+      throw new Error(`Request failed (${res.status})`);
+    }
+
+    const data = await res.json();
+    if (!data?.content) {
+      throw new Error("Empty response");
+    }
+
+    return { text: data.content, author: data.author || "Quotable" };
   }
 
   async function loadQuote(forceNetwork = false) {
@@ -396,7 +386,7 @@ $("year").textContent = String(new Date().getFullYear());
     }
 
     try {
-      const q = await fetchGitHubZen();
+      const q = await fetchRandomQuote();
       setQuote(q.text, q.author);
       setStatus("");
       saveCache(q.text, q.author);
@@ -550,16 +540,8 @@ $("year").textContent = String(new Date().getFullYear());
 
   try {
     const apiUrl = "https://api.github.com/users/Muhannad-Melaifi";
-    // Detect if running locally (localhost, 127.0.0.1) vs deployed (GitHub Pages)
-    const isLocal =
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1";
-    const url = isLocal
-      ? apiUrl
-      : "https://cors-anywhere.herokuapp.com/" + apiUrl;
-
-    const res = await fetch(url, {
-      headers: isLocal ? {} : { "X-Requested-With": "XMLHttpRequest" },
+    const res = await fetch(apiUrl, {
+      cache: "no-store",
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
