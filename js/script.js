@@ -549,12 +549,17 @@ $("year").textContent = String(new Date().getFullYear());
   if (!statusEl || !dataEl) return;
 
   try {
-    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
     const apiUrl = "https://api.github.com/users/Muhannad-Melaifi";
-    const res = await fetch(proxyUrl + apiUrl, {
-      headers: {
-        "X-Requested-With": "XMLHttpRequest",
-      },
+    // Detect if running locally (localhost, 127.0.0.1) vs deployed (GitHub Pages)
+    const isLocal =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+    const url = isLocal
+      ? apiUrl
+      : "https://cors-anywhere.herokuapp.com/" + apiUrl;
+
+    const res = await fetch(url, {
+      headers: isLocal ? {} : { "X-Requested-With": "XMLHttpRequest" },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
